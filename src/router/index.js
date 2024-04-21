@@ -237,8 +237,8 @@ const routes = [
       requiresAuth: true,
     },
     path: "/warehouses/:id",
-    name: "WarehouseView",
-    component: () => import("@/views/WarehouseView.vue"),
+    name: "WareHouseView",
+    component: () => import("@/views/WareHouseView.vue"),
   },
   ///
   {
