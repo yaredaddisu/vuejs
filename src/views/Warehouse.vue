@@ -14,7 +14,7 @@ import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { computed, ref } from "vue";
-import WarehouseView from "@/views/WarehouseView.vue";
+import WareHouseView from "@/views/WareHouseView.vue";
 import store from "../store";
 
 const props = defineProps({
@@ -57,7 +57,7 @@ function openModal() {
         title="Create Warehouse "
         has-cancel
       >
-        <WarehouseView />
+        <WareHouseView />
       </CardBoxHouse>
 
       <CardBox class="mb-6" has-table>
