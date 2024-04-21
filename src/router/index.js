@@ -229,7 +229,7 @@ const routes = [
     },
     path: "/warehouses/create",
     name: "WarehouseCreate",
-    component: () => import("@/views/WarehouseView.vue"),
+    component: () => import("@/views/WareHouseView.vue"),
   },
   {
     meta: {
