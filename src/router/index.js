@@ -303,12 +303,12 @@ const routes = [
   ///
   {
     meta: {
-      title: "MergeReports",
+      title: "mergeReports",
       requiresAuth: true,
     },
     path: "/merge-reports/:id",
-    name: "MergeReports",
-    component: () => import("@/views/MergeReports.vue"),
+    name: "mergeReports",
+    component: () => import("@/views/mergeReports.vue"),
   },
   {
     meta: {
