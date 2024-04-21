@@ -9,7 +9,7 @@ import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import FormControl from "@/components/FormControl.vue";
 import NotificationBar from "@/components/NotificationBar.vue";
-import WarehouseView from "@/views/WarehouseView.vue";
+import WareHouseView from "@/views/WareHouseView.vue";
 import store from "../store";
 import Notification from "@/components/Notification.vue";
 import OverlayLayer from "@/components/OverlayLayer.vue";
@@ -338,7 +338,7 @@ function updateCheckall() {
     title="Update Supplier "
     has-cancel
   >
-    <WarehouseView :id="data.id" />
+    <WareHouseView :id="data.id" />
   </CardBoxHouse>
   <Notification />
 
