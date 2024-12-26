@@ -642,7 +642,7 @@ function openPurchaseInNewWindow(id) {
                     ? 'text-yellow-800 border-yellow-500 '
                     : 'text-blue-500 border-blue-500 ',
                 ]"
-                >{{ purchase.status != 0 ? "Received" : "padding" }}
+                >{{ purchase.status != 0 ? "Received" : "Pending" }}
               </span>
             </td>
             <td data-label="Warehouse">{{ purchase.warehouse }}</td>

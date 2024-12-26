@@ -77,9 +77,8 @@ export default {
   data() {
     const current = new Date();
 
-    const year = `${current.getFullYear()}-${
-      current.getMonth() + 1
-    }-${current.getDate()}`;
+    const year = `${current.getFullYear()}-${current.getMonth() + 1
+      }-${current.getDate()}`;
     return {
       year,
       products: [],
@@ -220,7 +219,7 @@ export default {
       yPos += 15;
 
       doc.text(
-        "Status: " + data[0].status == true ? "Status: Reacived" : "Status: Padding",
+        "Status: " + data[0].status == true ? "Status: Reacived" : "Status: Pending",
         10,
         yPos
       );
@@ -278,7 +277,7 @@ export default {
         "Supplier Email",
         "Supplier Address",
         "Supplier Phone",
-
+        "Product Name",
         "Purchases Price",
         "Purchases Quantity",
         "Purchases Amount",
@@ -290,9 +289,11 @@ export default {
 
       data.forEach((row) => {
         const purchases = row.purchases.map((purchase) => [
+          purchase.productName,
           purchase.purchasePrice,
           purchase.quantity,
           purchase.amount,
+
         ]);
         purchases.forEach((purchase) => {
           const rowData = [
@@ -305,8 +306,9 @@ export default {
             row.supplier.email,
             row.supplier.address,
             row.supplier.phone,
+
             ...purchase,
-            row.status ? "Reacived" : "Padding",
+            row.status ? "Reacived" : "Pending",
 
             row.note,
           ];
@@ -374,31 +376,25 @@ export default {
 <template>
   <CardBoxModal v-model="isModalActive" has-cancel> </CardBoxModal>
   <SectionMain>
-    <div v-if="loading"><OverSpin /></div>
+    <div v-if="loading">
+      <OverSpin />
+    </div>
     <CardBox v-else class="bg-gray-20" has-table>
       <div class="flex flex-wrap w-auto justify-between gap-7 m-2">
         <div class="relative flex-1 w-14">
-          <button
-            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            @click="Purchase(products.user_id)"
-          >
+          <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            @click="Purchase(products.user_id)">
             Back
           </button>
         </div>
 
         <div class="relative flex-1 w-14">
-          <button
-            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            @click="exportToPDF(data)"
-          >
+          <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" @click="exportToPDF(data)">
             Export to PDF
           </button>
         </div>
         <div class="relative flex-1 w-14">
-          <button
-            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            @click="exportToExcel(data)"
-          >
+          <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" @click="exportToExcel(data)">
             Export to Excel
           </button>
         </div>
@@ -414,9 +410,7 @@ export default {
                     Supplier Name
                   </p>
                 </div>
-                <div
-                  class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {{ supplier.fullname }}
                 </div>
               </div>
@@ -428,9 +422,7 @@ export default {
                     Supplier Email
                   </p>
                 </div>
-                <div
-                  class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {{ supplier.email }}
                 </div>
               </div>
@@ -442,9 +434,7 @@ export default {
                     Supplier Address
                   </p>
                 </div>
-                <div
-                  class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {{ supplier.address }}
                 </div>
               </div>
@@ -460,9 +450,7 @@ export default {
                     Date of Purchase
                   </p>
                 </div>
-                <div
-                  class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {{ products.dateOfPurchase }}
                 </div>
               </div>
@@ -474,9 +462,7 @@ export default {
                     Date of Delivery
                   </p>
                 </div>
-                <div
-                  class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {{ products.dateOfDelivery }}
                 </div>
               </div>
@@ -488,9 +474,7 @@ export default {
                     Warehouse
                   </p>
                 </div>
-                <div
-                  class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {{ products.warehouse }}
                 </div>
               </div>
@@ -498,19 +482,13 @@ export default {
           </ul>
           <div class="flex items-start mt-2">
             <div class="flex items-center h-5">
-              <input
-                id="status"
-                name="status"
-                type="checkbox"
-                disabled
-                :checked="products.status === true || products.status === 1"
-                v-model="products.status"
-                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-              />
+              <input id="status" name="status" type="checkbox" disabled
+                :checked="products.status === true || products.status === 1" v-model="products.status"
+                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
             </div>
             <div class="ml-3 text-sm">
               <label for="status" class="font-medium text-200-700">
-                {{ products.status != 0 ? "Already received" : "Padding to receive" }}
+                {{ products.status != 0 ? "Already received" : "Pending to receive" }}
               </label>
             </div>
           </div>
@@ -518,20 +496,13 @@ export default {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table
-          class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-        >
-          <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="p-4">
                 <div class="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
+                  <input id="checkbox-all-search" type="checkbox"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                   <label for="checkbox-all-search" class="sr-only">checkbox</label>
                 </div>
               </th>
@@ -542,25 +513,17 @@ export default {
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="item in paginatedPurchases"
-              :key="item.id"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
+
+            <tr v-for="item in paginatedPurchases" :key="item.id"
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="w-4 p-4">
                 <div class="flex items-center">
-                  <input
-                    id="checkbox-table-search-1"
-                    type="checkbox"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
+                  <input id="checkbox-table-search-1" type="checkbox"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                   <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                 </div>
               </td>
-              <th
-                scope="row"
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ item.productName }}
               </th>
               <td class="px-6 py-4">{{ item.purchasePrice }}</td>
@@ -584,19 +547,13 @@ export default {
         </table>
 
         <div class="flex items-center justify-center mt-4 mb-6">
-          <button
-            @click="prevPage"
-            :disabled="currentPage === 1"
-            class="px-3 py-1 text-sm rounded bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
+          <button @click="prevPage" :disabled="currentPage === 1"
+            class="px-3 py-1 text-sm rounded bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
             Previous
           </button>
           <span class="mx-4 text-sm">Page {{ currentPage }} of {{ totalPages }}</span>
-          <button
-            @click="nextPage"
-            :disabled="currentPage === totalPages"
-            class="px-3 py-1 text-sm rounded bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
+          <button @click="nextPage" :disabled="currentPage === totalPages"
+            class="px-3 py-1 text-sm rounded bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
             Next
           </button>
         </div>

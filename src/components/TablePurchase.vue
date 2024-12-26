@@ -359,7 +359,7 @@ const updateMe = (id) => {
                 ? 'text-yellow-800 border-yellow-500 '
                 : 'text-blue-500 border-blue-500 ',
             ]"
-            >{{ client.status != 0 ? "Received" : "padding" }}
+            >{{ client.status != 0 ? "Received" : "Pending" }}
           </span>
         </td>
         <td data-label="Note">

@@ -636,7 +636,7 @@ export default {
             </div>
             <div class="ml-3 text-sm">
               <label for="status" class="font-medium text-200-700">
-                {{ purchases.status != 0 ? "Already received" : "Padding to receive" }}
+                {{ purchases.status != 0 ? "Already received" : "Pending to receive" }}
               </label>
             </div>
           </div>
